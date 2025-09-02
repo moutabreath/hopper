@@ -1,0 +1,38 @@
+package tal.hopper.urlDownloader.url_downloader;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import tal.hopper.urlDownloader.config_parser.DownloadConfig;
+import tal.hopper.urlDownloader.data.URLDownloadResult;
+
+import java.net.http.HttpClient;
+import java.nio.file.Path;
+import java.util.concurrent.Callable;
+
+public class URLDownloadTask implements Callable<URLDownloadResult> {
+    private static final Logger log = LoggerFactory.getLogger(URLDownloadTask.class);
+
+
+    private final HttpClient client;
+    private final DownloadConfig config;
+    private final String url;
+    private final Path outDir;
+    private final int ordinal;
+    private final  URLDownloader urlDownloader;
+
+
+public URLDownloadTask(HttpClient client, DownloadConfig config, String url, Path outDir, int ordinal, URLDownloader urlDownloader) {
+        this.client = client;
+        this.config = config;
+        this.url = url;
+        this.outDir = outDir;
+        this.ordinal = ordinal;
+        this.urlDownloader = urlDownloader;
+    }
+
+
+    @Override
+    public URLDownloadResult call() {
+        return this.urlDownloader.downloadContent(client, this.url, ordinal, config.maxDownloadTimePerUrl, outDir);
+    }
+}

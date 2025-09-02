@@ -1,6 +1,8 @@
 {
   "urls": [
-    "https://github.com/moutabreath/command_automator/blob/main/.gitignore"
+    "https://github.com/moutabreath/command_automator/blob/main/.gitignore",
+    "https://github.com/moutabreath/command_automator/blob/main/LICENSE",
+    "https://github.com/moutabreath/command_automator/blob/main/Readme.md"
   ],
   "maxDownloadTimePerUrl": 300,
   "outputDirectory": "./downloads",

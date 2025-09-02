@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import tal.hopper.urlDownloader.config_parser.DownloadConfig;
 import tal.hopper.urlDownloader.config_parser.DownloadConfigParser;
 import tal.hopper.urlDownloader.data.URLDownloadResult;
+import tal.hopper.urlDownloader.url_downloader.URLDownloadTask;
 import tal.hopper.urlDownloader.url_downloader.URLDownloader;
 
 import java.io.IOException;
@@ -51,8 +52,7 @@ public class ConcurrentUrlDownloaderRunner {
         URLDownloader urlDownloader = new URLDownloader();
         for (int i = 0; i < downloadConfig.urls.size(); i++) {
             String url = downloadConfig.urls.get(i);
-//            futures.add(ecs.submit(new DownloadTask(client, cfg, url, cfg.outputPath(), i + 1)));
-            urlDownloader.downloadContent(client, url, i + 1, downloadConfig.maxDownloadTimePerUrl, Path.of(downloadConfig.outputDirectory));
+            futures.add(executorCompletionService.submit(new URLDownloadTask(client, downloadConfig, url, Path.of(downloadConfig.outputDirectory), i + 1, urlDownloader)));
         }
 
 
