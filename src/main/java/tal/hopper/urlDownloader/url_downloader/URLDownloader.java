@@ -59,7 +59,7 @@ public class URLDownloader {
 
     private static URLDownloadResult downloadFile(HttpClient client, String fileUrl, Path outDir, HttpRequest req, int status, String finalName, long written, Instant started) {
         try{
-            Instant t0 = Instant.now();
+            Instant downloadStart = Instant.now();
             HttpResponse<InputStream> resp = client.send(req, HttpResponse.BodyHandlers.ofInputStream());
             status = resp.statusCode();
             if (status >= 200 && status < 300) { // only 200 response codes are ok
@@ -68,8 +68,9 @@ public class URLDownloader {
                     written = Files.copy(is, tmp);
                 }
                 Files.move(tmp, outDir.resolve(finalName), java.nio.file.StandardCopyOption.REPLACE_EXISTING);// create eventual file upon success
-                long dur = Duration.between(t0, Instant.now()).toMillis();
-                return new URLDownloadResult(fileUrl, finalName, true, status, written, dur, null, started, Instant.now());
+                Instant end = Instant.now();
+                long duration = Duration.between(downloadStart, end).toMillis();
+                return new URLDownloadResult(fileUrl, finalName, true, status, written, duration, null, started, end);
             } else {
                 throw new IOException("HTTP status " + status);
             }

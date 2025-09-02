@@ -13,6 +13,7 @@ import java.net.http.HttpClient;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -37,8 +38,6 @@ public class ConcurrentUrlDownloaderRunner {
     }
 
     private static void downloadConcurrently(DownloadConfig downloadConfig) {
-
-
         ExecutorService pool = Executors.newFixedThreadPool(downloadConfig.maxConcurrentDownloads);
         CompletionService<URLDownloadResult> executorCompletionService = new ExecutorCompletionService<>(pool);
         List<Future<URLDownloadResult>> futures = new ArrayList<>();
@@ -48,13 +47,41 @@ public class ConcurrentUrlDownloaderRunner {
                 .version(HttpClient.Version.HTTP_2)
                 .build();
 
-
         URLDownloader urlDownloader = new URLDownloader();
+        Instant t0 = Instant.now();
         for (int i = 0; i < downloadConfig.urls.size(); i++) {
             String url = downloadConfig.urls.get(i);
             futures.add(executorCompletionService.submit(new URLDownloadTask(client, downloadConfig, url, Path.of(downloadConfig.outputDirectory), i + 1, urlDownloader)));
         }
+        int resultsSize = analyzeResults(futures, executorCompletionService);
+        pool.shutdown();
+        try {
+            pool.awaitTermination(1, TimeUnit.MINUTES);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
+        long wall = Duration.between(t0, Instant.now()).toMillis();
+        log.info("ALL DONE | wall-clock {} ms ({} urls)", wall, resultsSize);
+    }
 
+    private static int analyzeResults(List<Future<URLDownloadResult>> futures,  CompletionService<URLDownloadResult> executorCompletionService){
+        List<URLDownloadResult> results = new ArrayList<>();
+        for (int i = 0; i < futures.size(); i++) {
+            try {
+                URLDownloadResult urlDownloadResult = executorCompletionService.take().get(); // completion order
+                results.add(urlDownloadResult);
+                if (urlDownloadResult.success) {
+                    log.info("DONE {} -> {} | {} ms | {} bytes | status {}", urlDownloadResult.uri, urlDownloadResult.fileName, urlDownloadResult.durationMillis, urlDownloadResult.bytesWritten, urlDownloadResult.statusCode);
+                } else {
+                    log.error("FAIL {} -> {} | {} ms | error: {}", urlDownloadResult.uri, urlDownloadResult.fileName, urlDownloadResult.durationMillis, urlDownloadResult.errorMessage);
+                }
+            } catch (ExecutionException e) {
+                log.error("Unexpected task error: {}", e.getCause().toString());
+            } catch (InterruptedException e) {
+                log.error("Interrupted while waiting for result", e);
+            }
+        }
+        return results.size();
     }
 }

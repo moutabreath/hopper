@@ -14,7 +14,6 @@ public class URLDownloadTask implements Callable<URLDownloadResult> {
     private final DownloadConfig config;
     private final String url;
     private final Path outDir;
-    private final int ordinal;
     private final  URLDownloader urlDownloader;
 
 
@@ -23,7 +22,6 @@ public URLDownloadTask(HttpClient client, DownloadConfig config, String url, Pat
         this.config = config;
         this.url = url;
         this.outDir = outDir;
-        this.ordinal = ordinal;
         this.urlDownloader = urlDownloader;
     }
 
