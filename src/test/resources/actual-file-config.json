@@ -1,0 +1,12 @@
+{
+  "urls": [
+    "https://github.com/moutabreath/command_automator/blob/main/.gitignore"
+  ],
+  "maxDownloadTimePerUrl": 60,
+  "outputDirectory": "./test-downloads",
+  "maxConcurrentDownloads": 2,
+  "downloadSettings": {
+    "retryAttempts": 2,
+    "retryDelay": 1000
+  }
+}
