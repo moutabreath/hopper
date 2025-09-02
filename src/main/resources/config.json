@@ -1,20 +1,8 @@
 {
   "urls": [
-    "https://example.com/file1.pdf",
-    "https://example.com/file2.zip",
-    "https://example.com/image1.jpg",
-    "https://example.com/video.mp4",
-    "https://example.com/document.docx",
-    "https://example.com/archive.tar.gz",
-    "https://example.com/presentation.pptx",
-    "https://example.com/data.csv"
+    "https://github.com/moutabreath/command_automator/blob/main/.gitignore"
   ],
   "maxDownloadTimePerUrl": 300,
   "outputDirectory": "./downloads",
-  "maxConcurrentDownloads": 4,
-  "downloadSettings": {
-    "retryAttempts": 3,
-    "retryDelay": 2000,
-    "maxRedirects": 5
-  }
+  "maxConcurrentDownloads": 4
 }

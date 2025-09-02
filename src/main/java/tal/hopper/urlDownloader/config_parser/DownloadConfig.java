@@ -7,6 +7,5 @@ public class DownloadConfig {
     public int maxDownloadTimePerUrl;
     public String outputDirectory;
     public int maxConcurrentDownloads;
-    public DownloadSettings downloadSettings;
 }
 

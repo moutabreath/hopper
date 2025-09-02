@@ -20,9 +20,13 @@ public class DownloadConfigParser {
      *
      * @return A {@link DownloadConfig} object populated with the settings from the JSON file, or {@code null} if loading fails.
      */
-    public static DownloadConfig getDownloadConfiguration() {
+    public static DownloadConfig getDownloadConfiguration(String configFileName) {
+        String resolveConfigFileName = CONFIG_FILE_NAME;
+        if (configFileName != null && !configFileName.isBlank()){
+            resolveConfigFileName = configFileName;
+        }
         // First, get the stream from the classpath.
-        InputStream inputStream = DownloadConfigParser.class.getClassLoader().getResourceAsStream(CONFIG_FILE_NAME);
+        InputStream inputStream = DownloadConfigParser.class.getClassLoader().getResourceAsStream(resolveConfigFileName);
 
         // Check for null *before* trying to use it in a reader.
         if (inputStream == null) {
