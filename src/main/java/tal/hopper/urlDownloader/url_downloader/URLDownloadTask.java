@@ -10,7 +10,6 @@ import java.nio.file.Path;
 import java.util.concurrent.Callable;
 
 public class URLDownloadTask implements Callable<URLDownloadResult> {
-    private static final Logger log = LoggerFactory.getLogger(URLDownloadTask.class);
 
 
     private final HttpClient client;

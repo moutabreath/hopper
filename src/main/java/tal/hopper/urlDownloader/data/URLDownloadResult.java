@@ -1,6 +1,5 @@
 package tal.hopper.urlDownloader.data;
 
-import java.net.URI;
 import java.time.Instant;
 
 public class URLDownloadResult {

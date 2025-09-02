@@ -10,9 +10,6 @@ import java.net.http.HttpClient;
 import java.nio.file.Path;
 import java.time.Duration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 public class DownloaderTests {
 
     @Test
