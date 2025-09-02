@@ -28,13 +28,13 @@ public class URLDownloader {
      * @param fileUrl The URL of the file to download.
      * @return A byte array containing the file's content, or {@code null} if an error occurs.
      */
-    public URLDownloadResult downloadContent(HttpClient client, String fileUrl, int ordinal, int perUrlTimeoutSeconds, Path outDir) {
+    public URLDownloadResult downloadContent(HttpClient client, String fileUrl, int perUrlTimeoutSeconds, Path outDir) {
         log.info("Starting download for URL: {}", fileUrl);
         Instant started = Instant.now();
         int status = 0;
         long written = 0L;
 
-        String desiredName = FileUtils.deriveFileName(fileUrl, ordinal);
+        String desiredName = FileUtils.deriveFileName(fileUrl);
         String finalName;
         HttpRequest req;
         try {

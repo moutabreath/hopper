@@ -1,7 +1,5 @@
 package tal.hopper.urlDownloader.url_downloader;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import tal.hopper.urlDownloader.config_parser.DownloadConfig;
 import tal.hopper.urlDownloader.data.URLDownloadResult;
 
@@ -32,6 +30,6 @@ public URLDownloadTask(HttpClient client, DownloadConfig config, String url, Pat
 
     @Override
     public URLDownloadResult call() {
-        return this.urlDownloader.downloadContent(client, this.url, ordinal, config.maxDownloadTimePerUrl, outDir);
+        return this.urlDownloader.downloadContent(client, this.url, config.maxDownloadTimePerUrl, outDir);
     }
 }

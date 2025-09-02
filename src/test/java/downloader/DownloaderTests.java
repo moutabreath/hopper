@@ -28,7 +28,7 @@ public class DownloaderTests {
                 .build();
         for (int i = 0; i < downloadConfig.urls.size(); i++) {
             String url = downloadConfig.urls.get(i);
-            urlDownloader.downloadContent(client, url, i + 1, downloadConfig.maxDownloadTimePerUrl, Path.of(downloadConfig.outputDirectory));
+            urlDownloader.downloadContent(client, url, downloadConfig.maxDownloadTimePerUrl, Path.of(downloadConfig.outputDirectory));
         }
 
 
