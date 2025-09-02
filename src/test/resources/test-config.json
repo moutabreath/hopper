@@ -1,0 +1,13 @@
+{
+  "urls": [
+    "http://test.com/file1.zip",
+    "http://test.com/file2.zip"
+  ],
+  "maxDownloadTimePerUrl": 60,
+  "outputDirectory": "./test-downloads",
+  "maxConcurrentDownloads": 2,
+  "downloadSettings": {
+    "retryAttempts": 2,
+    "retryDelay": 1000
+  }
+}
