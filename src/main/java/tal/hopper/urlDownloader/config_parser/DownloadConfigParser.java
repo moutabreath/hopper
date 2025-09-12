@@ -1,13 +1,14 @@
 package tal.hopper.urlDownloader.config_parser;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class DownloadConfigParser {
 
@@ -30,17 +31,17 @@ public class DownloadConfigParser {
 
         // Check for null *before* trying to use it in a reader.
         if (inputStream == null) {
-            log.error("Cannot find configuration file '{}' on the classpath. Make sure it's in 'src/main/resources'.", CONFIG_FILE_NAME);
+            log.error("Cannot find configuration file '{}' on the classpath. Make sure it's in 'src/main/resources'.", resolveConfigFileName);
             return null;
         }
 
         // Now that we know the stream is valid, use try-with-resources to ensure it's closed.
         try (InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
             DownloadConfig config = GSON.fromJson(reader, DownloadConfig.class);
-            log.info("Successfully loaded configuration from '{}'.", CONFIG_FILE_NAME);
+            log.info("Successfully loaded configuration from '{}'.", resolveConfigFileName);
             return config;
         } catch (Exception ex) {
-            log.error("Error loading or parsing config file from resource '{}'", CONFIG_FILE_NAME, ex);
+            log.error("Error loading or parsing config file from resource '{}'", resolveConfigFileName, ex);
             return null;
         }
     }

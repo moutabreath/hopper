@@ -1,11 +1,11 @@
 package tal.hopper.urlDownloader.url_downloader;
 
-import tal.hopper.urlDownloader.config_parser.DownloadConfig;
-import tal.hopper.urlDownloader.data.URLDownloadResult;
-
 import java.net.http.HttpClient;
 import java.nio.file.Path;
 import java.util.concurrent.Callable;
+
+import tal.hopper.urlDownloader.config_parser.DownloadConfig;
+import tal.hopper.urlDownloader.data.URLDownloadResult;
 
 public class URLDownloadTask implements Callable<URLDownloadResult> {
 
@@ -17,7 +17,7 @@ public class URLDownloadTask implements Callable<URLDownloadResult> {
     private final  URLDownloader urlDownloader;
 
 
-public URLDownloadTask(HttpClient client, DownloadConfig config, String url, Path outDir, int ordinal, URLDownloader urlDownloader) {
+public URLDownloadTask(HttpClient client, DownloadConfig config, String url, Path outDir, URLDownloader urlDownloader) {
         this.client = client;
         this.config = config;
         this.url = url;

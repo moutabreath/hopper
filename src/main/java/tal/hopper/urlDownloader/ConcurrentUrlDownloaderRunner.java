@@ -63,7 +63,7 @@ public class ConcurrentUrlDownloaderRunner {
             // This assumes URLDownloadTask is setting it on the HttpRequest.
             // If not, that's a separate required change in URLDownloadTask.
             futures.add(executorCompletionService.submit(new URLDownloadTask(client, downloadConfig, url,
-                    Path.of(downloadConfig.outputDirectory), i + 1, urlDownloader)));
+                     Path.of(downloadConfig.outputDirectory), urlDownloader)));
         }
         int resultsSize = analyzeResults(futures, executorCompletionService);
 
