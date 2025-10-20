@@ -36,7 +36,13 @@ public class ConcurrentUrlDownloaderRunner {
     private static final URLDownloader urlDownloader = new URLDownloader();
 
     public static void main(String[] args) {
-        DownloadConfig downloadConfig = DownloadConfigParser.getDownloadConfiguration("");
+        DownloadConfig downloadConfig;
+        try {
+            downloadConfig = DownloadConfigParser.getDownloadConfiguration("");
+        } catch (IOException e) {
+            log.error("Couldn't parse download configuration, got exception", e);
+            return;
+        }
         if (downloadConfig == null) {
             log.error("Could not parse download configuration. Exiting.");
             return;

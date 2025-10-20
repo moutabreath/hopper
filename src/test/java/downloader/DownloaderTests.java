@@ -6,6 +6,7 @@ import tal.hopper.urlDownloader.config_parser.DownloadConfig;
 import tal.hopper.urlDownloader.config_parser.DownloadConfigParser;
 import tal.hopper.urlDownloader.url_downloader.URLDownloader;
 
+import java.io.IOException;
 import java.net.http.HttpClient;
 import java.nio.file.Path;
 import java.time.Duration;
@@ -14,12 +15,15 @@ public class DownloaderTests {
 
     @Test
     @DisplayName("Test it is possible to download actual file without errors")
-    void testActualFileDownloadSuccessfully() {
+    void testActualFileDownloadSuccessfully() throws IOException {
         // Arrange
         String testConfigFile = "actual-file-config.json";
 
         // Act
         DownloadConfig downloadConfig = DownloadConfigParser.getDownloadConfiguration(testConfigFile);
+        if (downloadConfig == null){
+            throw new IOException();
+        }
         URLDownloader urlDownloader = new URLDownloader();
         HttpClient client = HttpClient.newBuilder()
                 .followRedirects(HttpClient.Redirect.ALWAYS)

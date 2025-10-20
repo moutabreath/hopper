@@ -1,5 +1,6 @@
 package tal.hopper.urlDownloader.config_parser;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -14,15 +15,15 @@ public class DownloadConfigParser {
 
     private static final Gson GSON = new GsonBuilder().create();
     private static final Logger log = LoggerFactory.getLogger(DownloadConfigParser.class);
-    private static final String CONFIG_FILE_NAME = "config.json";
+    private static final String DEFAULT_CONFIG_FILE_NAME = "config.json";
 
     /**
      * Loads and parses the download configuration from the {@code config.json} file located in the classpath resources.
      *
      * @return A {@link DownloadConfig} object populated with the settings from the JSON file, or {@code null} if loading fails.
      */
-    public static DownloadConfig getDownloadConfiguration(String configFileName) {
-        String resolveConfigFileName = CONFIG_FILE_NAME;
+    public static DownloadConfig getDownloadConfiguration(String configFileName) throws IOException {
+        String resolveConfigFileName = DEFAULT_CONFIG_FILE_NAME;
         if (configFileName != null && !configFileName.isBlank()){
             resolveConfigFileName = configFileName;
         }
@@ -42,7 +43,7 @@ public class DownloadConfigParser {
             return config;
         } catch (Exception ex) {
             log.error("Error loading or parsing config file from resource '{}'", resolveConfigFileName, ex);
-            return null;
+            throw ex;
         }
     }
 }

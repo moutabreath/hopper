@@ -3,13 +3,15 @@ package tal.hopper.urlDownloader.config_parser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DownloadConfigParserTests {
 
     @Test
     @DisplayName("Should load and parse a custom test config file successfully")
-    void testCustomConfigIsLoadedAndParsedCorrectly() {
+    void testCustomConfigIsLoadedAndParsedCorrectly() throws IOException {
         // Arrange
         String testConfigFile = "test-config.json";
 
@@ -30,7 +32,7 @@ class DownloadConfigParserTests {
 
     @Test
     @DisplayName("Should return null for a non-existent config file")
-    void testLoadingNonExistentFile() {
+    void testLoadingNonExistentFile() throws IOException {
         // Arrange
         String nonExistentFile = "non-existent-config.json";
 
